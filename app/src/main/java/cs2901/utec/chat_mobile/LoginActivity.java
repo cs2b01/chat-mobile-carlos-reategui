@@ -2,6 +2,7 @@ package cs2901.utec.chat_mobile;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 import java.util.Map;
@@ -35,9 +36,9 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onBtnLoginClicked(View view) {
         // 1. Getting username and password inputs from view
-        EditText txtUsername = (EditText) findViewById(R.id.txtUsername);
-        EditText txtPassword = (EditText) findViewById(R.id.txtPassword);
-        String username = txtUsername.getText().toString();
+        final EditText txtUsername = findViewById(R.id.txtUsername);
+        final EditText txtPassword = findViewById(R.id.txtPassword);
+        final String username = txtUsername.getText().toString();
         String password = txtPassword.getText().toString();
 
         // 2. Creating a message from user input data
@@ -61,6 +62,10 @@ public class LoginActivity extends AppCompatActivity {
                         String message = response.getString("message");
                         if(message.equals("Authorized")) {
                             showMessage("Authenticated");
+                            Intent intent = new Intent(LoginActivity.this, ActivityContacts.class);
+                            intent.putExtra("username", String.valueOf(txtUsername));
+                            intent.putExtra("password", String.valueOf(txtPassword));
+                            LoginActivity.this.startActivity(intent);
                         }
                         else {
                             showMessage("Wrong username or password");
