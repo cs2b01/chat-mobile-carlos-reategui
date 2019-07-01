@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         // 4. Sending json message to Server
         JsonObjectRequest request = new JsonObjectRequest(
             Request.Method.POST,
-            "http://10.0.2.2:8080/authenticate",
+            "http://10.0.2.2:5000/authenticate",
             jsonMessage,
             new Response.Listener<JSONObject>() {
                 @Override
@@ -63,8 +63,8 @@ public class LoginActivity extends AppCompatActivity {
                         if(message.equals("Authorized")) {
                             showMessage("Authenticated");
                             Intent intent = new Intent(LoginActivity.this, ActivityContacts.class);
-                            intent.putExtra("username", String.valueOf(txtUsername));
-                            intent.putExtra("password", String.valueOf(txtPassword));
+                            intent.putExtra("username", txtUsername.getText().toString());
+                            intent.putExtra("password", txtPassword.getText().toString());
                             LoginActivity.this.startActivity(intent);
                         }
                         else {
