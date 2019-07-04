@@ -1,8 +1,8 @@
 package cs2901.utec.chat_mobile;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 import java.util.Map;
@@ -34,11 +34,15 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
+    public Activity getActivity(){
+        return this;
+    }
+
     public void onBtnLoginClicked(View view) {
         // 1. Getting username and password inputs from view
-        final EditText txtUsername = findViewById(R.id.txtUsername);
-        final EditText txtPassword = findViewById(R.id.txtPassword);
-        final String username = txtUsername.getText().toString();
+        EditText txtUsername = (EditText) findViewById(R.id.txtUsername);
+        EditText txtPassword = (EditText) findViewById(R.id.txtPassword);
+        String username = txtUsername.getText().toString();
         String password = txtPassword.getText().toString();
 
         // 2. Creating a message from user input data
@@ -52,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
         // 4. Sending json message to Server
         JsonObjectRequest request = new JsonObjectRequest(
             Request.Method.POST,
-            "http://10.0.2.2:5000/authenticate",
+            "http://10.0.2.2:5000/mobile/authenticate",
             jsonMessage,
             new Response.Listener<JSONObject>() {
                 @Override
@@ -62,10 +66,10 @@ public class LoginActivity extends AppCompatActivity {
                         String message = response.getString("message");
                         if(message.equals("Authorized")) {
                             showMessage("Authenticated");
-                            Intent intent = new Intent(LoginActivity.this, ActivityContacts.class);
-                            intent.putExtra("username", txtUsername.getText().toString());
-                            intent.putExtra("password", txtPassword.getText().toString());
-                            LoginActivity.this.startActivity(intent);
+                            Intent intent = new Intent(getActivity(), ContactsActivity.class);
+                            intent.putExtra("user_id", response.getInt("user_id"));
+                            intent.putExtra("username", response.getString("username"));
+                            startActivity(intent);
                         }
                         else {
                             showMessage("Wrong username or password");
