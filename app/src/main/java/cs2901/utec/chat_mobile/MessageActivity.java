@@ -43,13 +43,31 @@ public class MessageActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-
+        //mRecyclerView.smoothScrollToPosition(mRecyclerView.getAdapter().getItemCount());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         getChats();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        Thread.sleep(5000);
+                        getChats();
+                    }
+                    catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        Thread hilo = new Thread(runnable);
+        hilo.start();
     }
 
     public void onClickBtnSend(View v) {
         postMessage();
+        EditText chatBox = findViewById(R.id.txtMessage);
+        chatBox.setText("");
     }
 
     public void getChats(){
@@ -71,6 +89,7 @@ public class MessageActivity extends AppCompatActivity {
                             int uID = Integer.parseInt(userFromId);
                             mAdapter = new MyMessageAdapter(data, getActivity(), uID);
                             mRecyclerView.setAdapter(mAdapter);
+                            mRecyclerView.smoothScrollToPosition(mRecyclerView.getAdapter().getItemCount());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
