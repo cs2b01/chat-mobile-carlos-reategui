@@ -51,14 +51,17 @@ public class MyMessageAdapter extends RecyclerView.Adapter<MyMessageAdapter.View
     @Override
     public void onBindViewHolder(@NonNull MyMessageAdapter.ViewHolder holder, int position) {
         try{
+            holder.setIsRecyclable(false);
             JSONObject element = elements.getJSONObject(position);
             String mFirstLine = element.getString("content");
             int userFromId = element.getInt("user_from_id");
 
             if(userFromId == this.userFromId){
                 holder.myLine.setText(mFirstLine);
+                holder.friendLine.setText("");
                 holder.friendLine.setVisibility(View.INVISIBLE);
             }else{
+                holder.myLine.setText("");
                 holder.myLine.setVisibility(View.INVISIBLE);
                 holder.friendLine.setText(mFirstLine);
             }

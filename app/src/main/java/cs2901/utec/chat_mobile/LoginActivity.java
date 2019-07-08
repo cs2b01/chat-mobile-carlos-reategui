@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                     try {
                         String message = response.getString("message");
                         if(message.equals("Authorized")) {
-                            showMessage("Authenticated");
+                            showMessage("You're logged in");
                             Intent intent = new Intent(getActivity(), ContactsActivity.class);
                             intent.putExtra("user_id", response.getInt("user_id"));
                             intent.putExtra("username", response.getString("username"));
@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                         else {
                             showMessage("Wrong username or password");
                         }
-                        showMessage(response.toString());
+                        //showMessage(response.toString());
                     }catch (Exception e) {
                         e.printStackTrace();
                         showMessage(e.getMessage());

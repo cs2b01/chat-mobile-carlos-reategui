@@ -36,15 +36,15 @@ public class MessageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
         String username = getIntent().getExtras().get("username").toString();
-        setTitle("@"+username);
+        setTitle("Chat with @"+username);
         mRecyclerView = findViewById(R.id.main_recycler_view);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
     protected void onResume(){
         super.onResume();
         //mRecyclerView.smoothScrollToPosition(mRecyclerView.getAdapter().getItemCount());
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         getChats();
         Runnable runnable = new Runnable() {
             @Override
@@ -60,8 +60,8 @@ public class MessageActivity extends AppCompatActivity {
                 }
             }
         };
-        Thread hilo = new Thread(runnable);
-        hilo.start();
+        Thread thread = new Thread(runnable);
+        thread.start();
     }
 
     public void onClickBtnSend(View v) {

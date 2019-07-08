@@ -29,7 +29,7 @@ public class ContactsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
         mRecyclerView = findViewById(R.id.main_recycler_view);
-        setTitle("@"+getIntent().getExtras().get("username").toString());
+        setTitle("Welcome @"+getIntent().getExtras().get("username").toString()+"!");
     }
 
     @Override
